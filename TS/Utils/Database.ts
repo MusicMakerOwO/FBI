@@ -55,8 +55,8 @@ const DB_SETUP_FILE = `${__dirname}/../../DB_SETUP.sql`;
 const FileContent = fs.readFileSync(DB_SETUP_FILE, 'utf8');
 
 const MACROS: Record<string, string> = {
-	'ROOT': __dirname,
-	'SNOWFLAKE_DATE': `strftime('%Y-%m-%d %H:%M:%f', ((id >> 22) + 1420070400000) / 1000 - 21600, 'unixepoch')`,
+	ROOT_FOLDER: `${__dirname}../..`,
+	SNOWFLAKE_DATE: `strftime('%Y-%m-%d %H:%M:%f', ((CAST(id AS INTEGER) >> 22) + 1420070400000) / 1000 - 21600, 'unixepoch')`
 };
 
 const WithMacros = FileContent.replace(/{{(.*?)}}/g, (match, macro) => {
