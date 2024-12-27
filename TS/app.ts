@@ -48,11 +48,11 @@ client.fileErrors = new Map<string, ComponentError>(); // file -> error
 client.database = database;
 
 const modules = [
-	'context',
 	'commands',
 	'buttons',
 	'menus',
 	'modals',
+	// 'context',
 	// 'messages',
 ];
 
