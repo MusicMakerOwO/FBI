@@ -37,4 +37,3 @@ function ReadFolder(path: string, depth = 3) {
 		}
 	}
 }
-module.exports = exports.default;

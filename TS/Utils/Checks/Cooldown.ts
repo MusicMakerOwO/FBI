@@ -7,4 +7,3 @@ export default function CheckCooldown(client: MicroClient, userID: string, comma
 	}
 	client.cooldowns.set(`${userID}-${command}`, Date.now() + cooldown * 1000);
 }
-module.exports = exports.default;

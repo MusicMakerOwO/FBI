@@ -68,4 +68,3 @@ for (const query of DBQueries) {
 }
 
 export default database;
-module.exports = exports.default;

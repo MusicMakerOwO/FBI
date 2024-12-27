@@ -20,4 +20,3 @@ export default function CheckPermissions(client: MicroClient, permissionsArray: 
 		throw [`${prefix} missing the following permissions: \`${missingPermissions.join('`, `')}\``, 'Missing permissions'];
 	}
 }
-module.exports = exports.default;

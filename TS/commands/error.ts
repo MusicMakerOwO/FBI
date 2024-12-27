@@ -9,4 +9,3 @@ export default {
 		throw new Error('Oopsies');
 	}
 }
-module.exports = exports.default;

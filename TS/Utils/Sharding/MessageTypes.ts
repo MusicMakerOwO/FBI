@@ -23,4 +23,3 @@ export default {
 	// type and file are defined in the data object
 	// rename is a combination of delete and create
 }
-module.exports = exports.default;

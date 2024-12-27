@@ -25,4 +25,3 @@ export default {
 		await interaction.showModal(modal)
 	}
 }
-module.exports = exports.default;

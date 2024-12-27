@@ -138,4 +138,3 @@ function addComponent(map: Map<string, any>, id: string, data: any) {
 
 	if (duplicateIDs.length > 0) throw `Duplicate IDs found: ${duplicateIDs.join(', ')}`;
 }
-module.exports = exports.default;

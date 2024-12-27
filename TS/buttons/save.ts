@@ -18,4 +18,3 @@ export default {
 		await interaction.deleteReply().catch( () => {} );
 	}
 }
-module.exports = exports.default;

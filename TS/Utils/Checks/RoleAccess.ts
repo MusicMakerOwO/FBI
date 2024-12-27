@@ -19,4 +19,3 @@ export default function MemberAccess(requiredRoles: string[], member: GuildMembe
 		throw ['You don\'t have permission to use this command!', 'Missing roles'];
 	}
 }
-module.exports = exports.default;

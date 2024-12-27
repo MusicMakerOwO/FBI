@@ -49,4 +49,3 @@ export default {
     SendPolls: 1n << 49n,
     UseExternalApps: 1n << 50n
 }
-module.exports = exports.default;

@@ -49,4 +49,3 @@ export default function FindError (error: any & { stack: string }) : ComponentEr
 		lines
 	}
 }
-module.exports = exports.default;

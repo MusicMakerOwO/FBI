@@ -20,4 +20,3 @@ export default function CRC32(str: string) {
 	const hash = -(crc + 1) >>> 0;
 	return hash.toString(16).padStart(8, '0');
 }
-module.exports = exports.default;

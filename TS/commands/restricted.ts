@@ -25,4 +25,3 @@ export default {
 		await interaction.reply(`You provided: ${input}`);
 	},
 };
-module.exports = exports.default;

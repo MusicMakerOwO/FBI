@@ -12,4 +12,3 @@ export default {
 		});
 	}
 }
-module.exports = exports.default;

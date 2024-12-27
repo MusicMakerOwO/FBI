@@ -5,4 +5,3 @@ export default function Debounce(func: Function, delay: number) {
 		timeout = setTimeout(() => func(...args), delay);
 	};
 }
-module.exports = exports.default;

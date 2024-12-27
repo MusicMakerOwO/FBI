@@ -66,4 +66,3 @@ export default function (client: MicroClient) {
 		WatchFolder(client, folder, filePath);
 	}
 }
-module.exports = exports.default;

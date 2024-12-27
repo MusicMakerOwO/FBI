@@ -7,4 +7,3 @@ export default {
 		await interaction.deleteReply();
 	}
 }
-module.exports = exports.default;

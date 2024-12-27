@@ -6,4 +6,3 @@ export default function IDAccess(requiredIDs: string[], targetID: string | null,
 		throw ['You don\'t have permission to use this command!', `${name} not whitelisted`];
 	}
 }
-module.exports = exports.default;

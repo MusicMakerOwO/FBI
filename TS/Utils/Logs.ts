@@ -90,4 +90,3 @@ function custom(message: any, hexColor: string | number = 0x000000) {
 }
 
 export default { getTimestamp, info, warn, error, success, debug, deleted, updated, created, custom };
-module.exports = exports.default;

@@ -10,4 +10,3 @@ export default {
 		process.exit(0);
 	}
 }
-module.exports = exports.default;

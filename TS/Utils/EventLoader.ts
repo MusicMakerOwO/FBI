@@ -47,4 +47,3 @@ export default function (client: MicroClient) {
 		}
 	}
 }
-module.exports = exports.default;

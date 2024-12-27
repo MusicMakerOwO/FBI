@@ -110,4 +110,3 @@ export default{
 		// client.logs.debug(`[RELOAD] If the new command is not showing up restart your discord client!`);
 	}
 }
-module.exports = exports.default;

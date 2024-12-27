@@ -14,4 +14,3 @@ export default async function Prompt(question = ''): Promise<string> {
 		if (question) process.stdout.write(question);
     })
 }
-module.exports = exports.default;

@@ -107,4 +107,3 @@ export default function (client: MicroClient) {
 	if (missingIntents.size > 0) Logs.warn(`Applied missing intents: ${missingIntentNames.join(', ')}`);
 }
 
-module.exports = exports.default;

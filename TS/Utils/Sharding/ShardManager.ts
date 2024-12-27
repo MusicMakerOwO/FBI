@@ -170,4 +170,3 @@ export default class ShardManager {
 		}
 	}
 }
-module.exports = exports.default;

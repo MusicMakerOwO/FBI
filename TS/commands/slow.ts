@@ -21,4 +21,3 @@ export default {
 		await interaction.editReply('Finished!');
 	}
 }
-module.exports = exports.default;
