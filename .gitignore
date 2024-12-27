@@ -2,7 +2,10 @@
 *.sqlite
 
 # Private config
-# config.json
+config.json
+
+# Build files
+build/
 
 # Logs
 logs

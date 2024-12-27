@@ -4,8 +4,8 @@
 		"discord.js": "^14.16.3"
 	},
 	"scripts": {
-		"build": "node ./build.js",
-		"start": "node ./JS/index.js"
+		"build": "echo 'Compiling to JS...' && tsc && echo 'Done!'",
+		"start": "node ./build/index.js"
 	},
 	"devDependencies": {
 		"@types/better-sqlite3": "^7.6.12",
