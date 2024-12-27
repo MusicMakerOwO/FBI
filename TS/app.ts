@@ -45,8 +45,6 @@ client.responseCache = new Map<string, any>(); // messageID -> response
 client.shards = new ShardManager(client, shardID, shardCount);// class will not initialize if shardID is not a number, reduces memory overhead
 client.fileErrors = new Map<string, ComponentError>(); // file -> error
 
-client.database = database;
-
 const modules = [
 	'commands',
 	'buttons',
