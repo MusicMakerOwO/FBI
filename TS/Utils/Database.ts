@@ -53,9 +53,20 @@ function ParseQueries(fileContent: string) : string[] {
 
 const DB_SETUP_FILE = `${__dirname}/../../DB_SETUP.sql`;
 const FileContent = fs.readFileSync(DB_SETUP_FILE, 'utf8');
-const DBQueries = ParseQueries(FileContent);
 
-const database: Database = new BetterSqlite3(`${__dirname}/../fbi.sqlite`);
+const MACROS: Record<string, string> = {
+	'ROOT': __dirname,
+	'SNOWFLAKE_DATE': `strftime('%Y-%m-%d %H:%M:%f', ((id >> 22) + 1420070400000) / 1000 - 21600, 'unixepoch')`,
+};
+
+const WithMacros = FileContent.replace(/{{(.*?)}}/g, (match, macro) => {
+	if (MACROS[macro]) return MACROS[macro];
+	throw new Error(`Unknown macro: ${macro}`);
+});
+
+const DBQueries = ParseQueries(WithMacros);
+
+const database: Database = new BetterSqlite3(`${__dirname}/../../fbi.sqlite`);
 
 for (const query of DBQueries) {
 	try {
