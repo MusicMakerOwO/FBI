@@ -31,7 +31,7 @@ function ReadFolder(path: string, depth = 3) {
 
 		try {
 			const data = fullPath.endsWith('.js') ? require(fullPath) : fs.readFileSync(fullPath, 'utf8');
-			files.push({ path: fullPath, depth, data });
+			files.push({ path: fullPath, depth, data: data.default || data });
 		} catch (error) {
 			Log.error(`Failed to load ${fullPath} - ${error}`);
 		}
