@@ -15,11 +15,14 @@ export default function (client: MicroClient, folder: 'commands' | 'context' | '
 	client[folder] = new Map();
 
 	if (!existsSync(`${__dirname}/../${folder}`)) {
-		throw new Error(`No "${folder}" folder found`);
+		// throw new Error(`No "${folder}" folder found`);
+		// return console.warn(`No "${folder}" folder found`);
+		return;
 	}
 
 	const files = ReadFolder(`${__dirname}/../${folder}`);
 	for (let { path: filePath, data } of files as Array<{ path: string, data: CommandFile | ComponentFile | MessageFile }>) {
+		if (!filePath.endsWith('.js')) continue;
 		try {
 			if (!data.execute) throw `No execute function found`;
 			if (typeof data.execute !== 'function') throw `Execute is not a function`;

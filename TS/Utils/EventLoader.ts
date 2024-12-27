@@ -18,6 +18,7 @@ export default function (client: MicroClient) {
 
 	const files = ReadFolder(`${__dirname}/../events/`);
 	for (const { path, data } of files as Array<{ path: string, data: EventFile }>) {
+		if (!path.endsWith('.js')) continue;
 		try {
 			if (!data.name) throw `Event is missing a name!`;
 			if (typeof data.name !== 'string') throw `Event name must be a string!`;

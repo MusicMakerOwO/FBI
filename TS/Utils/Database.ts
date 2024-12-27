@@ -51,7 +51,7 @@ function ParseQueries(fileContent: string) : string[] {
 	return queries;
 }
 
-const DB_SETUP_FILE = `${__dirname}/../DB_SETUP.sql`;
+const DB_SETUP_FILE = `${__dirname}/../../DB_SETUP.sql`;
 const FileContent = fs.readFileSync(DB_SETUP_FILE, 'utf8');
 const DBQueries = ParseQueries(FileContent);
 
@@ -68,3 +68,4 @@ for (const query of DBQueries) {
 }
 
 export default database;
+module.exports = exports.default;
