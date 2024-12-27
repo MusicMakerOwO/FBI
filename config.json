@@ -1,0 +1,16 @@
+{
+	"TOKEN": "no lol",
+	"APP_ID": "hmm",
+	"DEV_GUILD_ID": "",
+
+	"PREFIX": "!",
+
+	"HOT_RELOAD": false,
+	"PROCESS_HANDLERS": true,
+	"CHECK_PACKAGES": false,
+	"CHECK_INTENTS": true,
+	"CHECK_EVENT_NAMES": true,
+	"REGISTER_COMMANDS": true,
+	"FANCY_ERRORS": true,
+	"ENABLE_SHARDING": false
+}

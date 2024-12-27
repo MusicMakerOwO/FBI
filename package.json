@@ -1,0 +1,14 @@
+{
+	"dependencies": {
+		"better-sqlite3": "^11.7.0",
+		"discord.js": "^14.16.3"
+	},
+	"scripts": {
+		"build": "node ./build.js",
+		"start": "node ./JS/index.js"
+	},
+	"devDependencies": {
+		"@types/better-sqlite3": "^7.6.12",
+		"@types/node": "^22.10.2"
+	}
+}
