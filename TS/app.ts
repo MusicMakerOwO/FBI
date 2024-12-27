@@ -25,6 +25,8 @@ import CheckIntents from './Utils/CheckIntents';
 import { MicroClient, ComponentError } from './typings';
 import { Client } from 'discord.js';
 
+import database from './Utils/Database';
+
 const client = new Client({
 	... isFinite(shardID) ? { shards: [shardID, shardCount] } : {},
 	intents: [
@@ -42,6 +44,8 @@ client.activeCollectors = new Map<string, any>(); // messageID -> collector
 client.responseCache = new Map<string, any>(); // messageID -> response
 client.shards = new ShardManager(client, shardID, shardCount);// class will not initialize if shardID is not a number, reduces memory overhead
 client.fileErrors = new Map<string, ComponentError>(); // file -> error
+
+client.database = database;
 
 const modules = [
 	'context',

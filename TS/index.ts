@@ -55,7 +55,7 @@ if (errors.length > 0) {
 if (!config.ENABLE_SHARDING) {
 	console.error('[~] Sharding is disabled - Starting main instance...');
 	try {
-		ChildProcess.execSync('node JS/app.js', { stdio: 'inherit' });
+		ChildProcess.execSync('node build/app.js', { stdio: 'inherit' });
 	} catch (error) {
 		console.error(error);
 		process.exit(1);
@@ -269,7 +269,7 @@ function CreateShard(shardID: number, shardCount = shards.size) {
 		return;
 	}
 
-	const shard = ChildProcess.fork('./JS/app.js', [String(shardID), String(shardCount)], {
+	const shard = ChildProcess.fork('./build/app.js', [String(shardID), String(shardCount)], {
 		// JSON serialization allows for transmission of primitive types but not much else
 		// Things like numbers, strings, booleans, arrays, and objects are fine
 		// But if you need more complex data, like functions, you will need to convert it to a primitive

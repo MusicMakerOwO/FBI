@@ -4,6 +4,7 @@ type AnySelectMenuInteraction = UserSelectMenuInteraction | StringSelectMenuInte
 type AnyContextMenu = UserContextMenuCommandInteraction | MessageContextMenuCommandInteraction;
 import ShardManager from './Utils/Sharding/ShardManager';
 import Collector from './Utils/Overrides/Collector';
+import { Database } from 'better-sqlite3';
 
 import Log from './Utils/Logs';
 
@@ -87,6 +88,8 @@ export interface MicroClient extends Client {
 	menus: Map<string, ComponentFile>;
 	modals: Map<string, ComponentFile>;
 	messages: Map<string, MessageFile>;
+
+	database: Database;
 }
 
 export interface MicroInteractionResponse extends InteractionReplyOptions {
