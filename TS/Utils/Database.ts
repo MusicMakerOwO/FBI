@@ -69,11 +69,20 @@ const WithMacros = NoComments.replace(/{{(.*?)}}/g, (match, macro) => {
 
 const DBQueries = ParseQueries(WithMacros);
 
-const database: Database = new BetterSqlite3(`${__dirname}/../../fbi.sqlite`);
+interface DBWithTables extends Database {
+	tables: string[];
+}
+
+const database = new BetterSqlite3(`${__dirname}/../../fbi.sqlite`) as DBWithTables;
+
+database.tables = database.prepare(`SELECT name FROM sqlite_master WHERE type='table'`).pluck().all() as string[];
 
 database.pragma('foreign_keys = OFF');
 database.pragma('journal_mode = WAL');
 database.pragma('synchronous = NORMAL');
+database.pragma('cache_size = 10000');
+database.pragma('temp_store = MEMORY');
+database.pragma('locking_mode = EXCLUSIVE'); // We will worry about concurrency when we get to sharding
 
 for (const query of DBQueries) {
 	try {
