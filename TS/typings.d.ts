@@ -195,10 +195,8 @@ export interface MicroClient extends Client {
 
 	// Caching
 	messageCache: CachePool<BasicMessage>;
-	downloadQueue: DownloadEntry[];
+	downloadQueue: [table: string, id: string, url: string][];
 }
-
-export declare type DownloadEntry = [table: string, id: string, url: string];
 
 export interface MicroInteractionResponse extends InteractionReplyOptions {
 	hidden?: boolean;
