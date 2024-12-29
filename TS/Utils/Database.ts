@@ -54,19 +54,26 @@ function ParseQueries(fileContent: string) : string[] {
 const DB_SETUP_FILE = `${__dirname}/../../DB_SETUP.sql`;
 const FileContent = fs.readFileSync(DB_SETUP_FILE, 'utf8');
 
+const NoComments = FileContent.replace(/\-\-.*\n/g, '');
+
 const MACROS: Record<string, string> = {
 	ROOT_FOLDER: `${__dirname}../..`,
 	SNOWFLAKE_DATE: `strftime('%Y-%m-%d %H:%M:%f', ((CAST(id AS INTEGER) >> 22) + 1420070400000) / 1000 - 21600, 'unixepoch')`
 };
 
-const WithMacros = FileContent.replace(/{{(.*?)}}/g, (match, macro) => {
+const WithMacros = NoComments.replace(/{{(.*?)}}/g, (match, macro) => {
 	if (MACROS[macro]) return MACROS[macro];
-	throw new Error(`Unknown macro: ${macro}`);
+	console.error(`Unknown macro: ${macro}`);
+	return match;
 });
 
 const DBQueries = ParseQueries(WithMacros);
 
 const database: Database = new BetterSqlite3(`${__dirname}/../../fbi.sqlite`);
+
+database.pragma('foreign_keys = OFF');
+database.pragma('journal_mode = WAL');
+database.pragma('synchronous = NORMAL');
 
 for (const query of DBQueries) {
 	try {
