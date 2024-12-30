@@ -75,8 +75,6 @@ interface DBWithTables extends Database {
 
 const database = new BetterSqlite3(`${__dirname}/../../fbi.sqlite`) as DBWithTables;
 
-database.tables = database.prepare(`SELECT name FROM sqlite_master WHERE type='table'`).pluck().all() as string[];
-
 database.pragma('foreign_keys = OFF');
 database.pragma('journal_mode = WAL');
 database.pragma('synchronous = NORMAL');
@@ -93,5 +91,7 @@ for (const query of DBQueries) {
 		process.exit(1);
 	}
 }
+
+database.tables = database.prepare(`SELECT name FROM sqlite_master WHERE type='table'`).pluck().all() as string[];
 
 export default database;
