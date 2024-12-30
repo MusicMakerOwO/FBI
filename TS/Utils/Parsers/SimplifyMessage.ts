@@ -236,8 +236,8 @@ function ProcessEmojis(content: string) : EmojiAsset[] {
 		// const emojiData = EmojiParser.exec(emoji);
 		// if (!emojiData) continue;
 
-		const emojiData = emoji.split(':');
-		const animated = emojiData[0] === '<a';
+		const emojiData = emoji.slice(1, -1).split(':')
+		const animated = emojiData[0] === 'a';
 		const name = emojiData[1];
 		const id = emojiData[2];
 
