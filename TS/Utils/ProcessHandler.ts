@@ -4,12 +4,12 @@ const { PROCESS_HANDLER } = require('../../config.json') as { PROCESS_HANDLER: b
 ( () => {
 	if (!PROCESS_HANDLER) return;
 	
-	// Crtl + C
-	process.on('SIGINT', () => {
-		console.log();
-		Log.error('SIGINT: Exiting...');
-		process.exit(0);
-	});
+	// // Crtl + C
+	// process.on('SIGINT', () => {
+	// 	console.log();
+	// 	Log.error('SIGINT: Exiting...');
+	// 	process.exit(0);
+	// });
 
 	// Standard crash
 	process.on('uncaughtException', (err) => {
