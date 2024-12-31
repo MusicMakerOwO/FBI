@@ -22,10 +22,13 @@ import RegisterCommands from './Utils/RegisterCommands';
 import FileWatch from './Utils/FileWatch';
 import CheckIntents from './Utils/CheckIntents';
 
-import { MicroClient, ComponentError } from './typings';
+import { MicroClient } from './typings';
 import { Client } from 'discord.js';
+import CachePool from './Utils/Caching/CachePool';
 
-import database from './Utils/Database';
+import SaveMessages from './Utils/Storage/SaveMessages';
+import DownloadAssets from './Utils/Storage/DownloadAssets';
+import Database from './Utils/Database';
 
 const client = new Client({
 	... isFinite(shardID) ? { shards: [shardID, shardCount] } : {},
@@ -43,7 +46,62 @@ client.cooldowns = new Map<string, number>(); // guildID::userID -> timestamp
 client.activeCollectors = new Map<string, any>(); // messageID -> collector
 client.responseCache = new Map<string, any>(); // messageID -> response
 client.shards = new ShardManager(client, shardID, shardCount);// class will not initialize if shardID is not a number, reduces memory overhead
-client.fileErrors = new Map<string, ComponentError>(); // file -> error
+
+client.messageCache = new CachePool(3);
+client.downloadQueue = [];
+
+function ProcessMessages() {
+	// It's a little funky but CachePool.pool is a getter so JS will return a pointer
+	// However when we call Switch() then the pointer now points to the new pool, not the old one
+	// So we need to point to the array DIRECTLY instead of the getter
+	const currentPool = Array.from(client.messageCache.pools[client.messageCache.currentPool]);
+
+	// We will fill up the next pool while we wait for the save to finish
+	client.messageCache.switch();
+	// Make sure the cache is empty so we don't save duplicates
+	client.messageCache.clear(client.messageCache.currentPool);
+
+	SaveMessages(client, currentPool);
+}
+
+async function CloseProgram() {
+    client.logs.info('Cleaning up...');
+
+    clearInterval(TickInterval);
+    client.destroy();
+
+    await DownloadAssets(client.downloadQueue);
+
+    ProcessMessages();
+
+    try {
+        Database.pragma('wal_checkpoint(RESTART)'); // Clear the WAL file
+        Database.pragma('analysis_limit=8000');
+        Database.exec('ANALYZE');
+        Database.exec('VACUUM');
+    } catch (err) {
+        console.error('Error during database cleanup:', err);
+    } finally {
+        Database.close();
+    }
+}
+
+
+process.on('SIGINT', CloseProgram);
+
+let seconds = 0;
+function TickProgram() {
+	seconds++;
+	
+	if (seconds % (60 * 15) === 0) {
+		ProcessMessages();
+	}
+
+	if (seconds % (60) === 0) {
+		DownloadAssets(client.downloadQueue);
+	}
+}
+const TickInterval = setInterval(TickProgram, 1000);
 
 const modules = [
 	'commands',
