@@ -26,7 +26,9 @@ export interface EmojiAsset extends BasicAsset {
 }
 
 // Doesn't add anything but it's here for consistency
-export interface AttachmentAsset extends BasicAsset { }
+export interface AttachmentAsset extends BasicAsset {
+	messageID: string;
+}
 
 export interface StickerAsset extends BasicAsset {
 	description: string | null;

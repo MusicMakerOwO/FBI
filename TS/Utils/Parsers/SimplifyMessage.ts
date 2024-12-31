@@ -157,7 +157,7 @@ export default function (message: Message) : BasicMessage {
 			} : CalculateDefaultAvatar(message.author.id)
 		},
 		embeds: ProcessEmbeds(message.embeds, message.id),
-		attachments: ProcessAttachments(message.attachments),
+		attachments: ProcessAttachments(message.attachments, message.id),
 		sticker: ProcessSticker(message.stickers.first()),
 		emojis: ProcessEmojis(message.content),
 		id: message.id,
@@ -274,7 +274,7 @@ function ProcessSticker(sticker: Sticker | undefined) : StickerAsset | null {
 	}
 }
 
-function ProcessAttachments(attachment: Message['attachments']) : AttachmentAsset[] {
+function ProcessAttachments(attachment: Message['attachments'], messageID: string) : AttachmentAsset[] {
 	const output: AttachmentAsset[] = [];
 
 	const attachments = Array.from(attachment.values());
@@ -282,6 +282,7 @@ function ProcessAttachments(attachment: Message['attachments']) : AttachmentAsse
 		const file = attachments[i];
 		const [name, extension] = file.name.split('.');
 		output.push({
+			messageID: messageID,
 			id: file.id,
 			url: file.url,
 			name: name,
