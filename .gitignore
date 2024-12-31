@@ -3,6 +3,9 @@
 *.sqlite-shm
 *.sqlite-wal
 
+Storage
+!TS/Utils/Storage/
+
 # Private config
 config.json
 
