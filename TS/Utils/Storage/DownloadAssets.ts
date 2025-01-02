@@ -90,7 +90,7 @@ export default async function DownloadAssets(assetsPtr: [table: string, id: stri
 		// Now download the file
 		const data = await DownloadFile(url)
 		const hash = crypto.createHash('md5').update(data).digest('hex');
-		const ext = /\.(gif|jpe?g|png|webp)/.exec(url)?.[1] as string || 'unknown';
+		const ext = url.split('.').pop()!.split('?')[0];
 
 		const folder = LOOKUP_DATABASE_FOLDERS[table];
 
