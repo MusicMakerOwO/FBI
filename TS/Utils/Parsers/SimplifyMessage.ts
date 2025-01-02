@@ -148,7 +148,7 @@ export default function (message: Message) : BasicMessage {
 			icon: userIcon ? {
 				id: /(\d{17,})/.exec(userIcon)?.[0] as string,
 				name: 'icon',
-				extension: userIcon.split('.').pop() as string,
+				extension: userIcon.split('.').pop()!.split('?')[0],
 				url: userIcon,
 				dimensions: {
 					height: 256, // could be smaller but we will fix that after downloading
