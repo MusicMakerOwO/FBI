@@ -10,7 +10,8 @@ export default function CheckPermissions(client: MicroClient, permissionsArray: 
 
 	const missingPermissions: string[] = [];
 	if (permissionsArray.length === 0) return;
-	for (const permission of permissionsArray) {
+	for (let i = 0; i < permissionsArray.length; i++) {
+		const permission = permissionsArray[i];
 		// @ts-ignore
 		if (member.permissions.has(Permissions[permission])) continue;
 		missingPermissions.push(permission);
