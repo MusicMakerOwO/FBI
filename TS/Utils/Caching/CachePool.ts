@@ -6,7 +6,7 @@ export default class CachePool<T> {
 	constructor(pools: number) {
 		if (pools < 2) throw new Error(`CachePool must have at least 2 pools - Received ${pools}`);
 
-		this.pools = new Array(pools).fill([]);
+		this.pools = new Array(pools).fill(null).map(() => new Array<T>());
 		this.currentPool = 0;
 	}
 
@@ -15,7 +15,7 @@ export default class CachePool<T> {
 	}
 
 	add(value: T) {
-		this.pool.push(value);
+		this.pools[this.currentPool].push(value);
 	}
 
 	switch() {
