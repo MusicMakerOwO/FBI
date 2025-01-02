@@ -63,6 +63,12 @@ const QUERY_InsertMember = Database.prepare(`
 	ON CONFLICT(guild_id, user_id) DO NOTHING
 `);
 
+const QUERY_InsertAttachment = Database.prepare(`
+	INSERT INTO attachments (id, name, message_id)
+	VALUES (?, ?, ?)
+	ON CONFLICT(id) DO NOTHING
+`);
+
 
 const LINKED_TABLES = [
 	'Guilds',
@@ -185,7 +191,8 @@ export default function (client: MicroClient, messages: BasicMessage[]) {
 		}
 
 		for (let i = 0; i < attachmentList.length; i++) {
-			// Attachments are a bit more complex, we will tackle them later
+			const attachment = attachmentList[i];
+			QUERY_InsertAttachment.run(attachment.id, attachment.name, attachment.messageID);
 		}
 
 		for (let i = 0; i < stickerList.length; i++) {
