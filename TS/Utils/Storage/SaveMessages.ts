@@ -1,5 +1,5 @@
 import { Statement } from "better-sqlite3";
-import { BasicMessage, Guild, Channel, User, EmojiAsset, AttachmentAsset, StickerAsset, BasicEmbed, MicroClient } from "../../typings";
+import { BasicMessage, Guild, Channel, User, EmojiAsset, AttachmentAsset, StickerAsset, BasicEmbed } from "../../typings";
 import Database from '../Database';
 import Log from '../Logs';
 
@@ -85,7 +85,7 @@ for (const table of LINKED_TABLES) {
 	ASSET_LINKS.push( Database.prepare(`UPDATE ${table} SET asset_id = (SELECT asset_id FROM Assets WHERE ${table}.id = Assets.id) WHERE asset_id IS NULL`) );
 }
 
-export default function (client: MicroClient, messages: BasicMessage[]) {
+export default function (messages: BasicMessage[]) {
 	// Combine like terms first to reduce database load
 	// We will work backwards so we always get the latest data
 	// This all adds some extra runtime and making this O(2n) but it saves a lot of time over all
