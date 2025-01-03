@@ -80,7 +80,6 @@ database.pragma('journal_mode = WAL');
 database.pragma('synchronous = NORMAL');
 database.pragma('cache_size = 10000');
 database.pragma('temp_store = MEMORY');
-database.pragma('locking_mode = EXCLUSIVE'); // We will worry about concurrency when we get to sharding
 
 for (const query of DBQueries) {
 	try {
