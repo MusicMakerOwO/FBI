@@ -65,6 +65,16 @@ function ProcessMessages() {
 	SaveMessages(currentPool);
 }
 
+function CreateBackups() {
+	const currentHour = new Date().getHours();
+	for (const guild of client.guilds.cache.values()) {
+		if (BigInt(guild.id) % BigInt(currentHour) === 0n) {
+			CreateBackup(guild, client, BackupType.AUTOMATIC);
+		}
+	}
+}
+
+
 function CloseProgram() {
 	client.logs.info('Cleaning up...');
 
@@ -100,6 +110,10 @@ function TickProgram() {
 
 	if (seconds % (60) === 0) {
 		DownloadAssets(client.downloadQueue);
+	}
+	
+	if (seconds % (60 * 60) === 0) {
+		CreateBackups();
 	}
 }
 const TickInterval = setInterval(TickProgram, 1000);
