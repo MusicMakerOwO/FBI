@@ -75,6 +75,7 @@ function CreateBackups() {
 }
 
 
+process.on('SIGINT', CloseProgram);
 function CloseProgram() {
 	client.logs.info('Cleaning up...');
 
@@ -98,9 +99,8 @@ function CloseProgram() {
 }
 
 
-process.on('SIGINT', CloseProgram);
-
 let seconds = 0;
+const TickInterval = setInterval(TickProgram, 1000);
 function TickProgram() {
 	seconds++;
 	
@@ -111,12 +111,11 @@ function TickProgram() {
 	if (seconds % (60) === 0) {
 		DownloadAssets(client.downloadQueue);
 	}
-	
+
 	if (seconds % (60 * 60) === 0) {
 		CreateBackups();
 	}
 }
-const TickInterval = setInterval(TickProgram, 1000);
 
 const modules = [
 	'commands',
