@@ -29,6 +29,7 @@ import CachePool from './Utils/Caching/CachePool';
 import SaveMessages from './Utils/Storage/SaveMessages';
 import DownloadAssets from './Utils/Storage/DownloadAssets';
 import Database from './Utils/Database';
+import CreateBackup, { BackupType } from './Utils/Storage/CreateBackup';
 
 const client = new Client({
 	... isFinite(shardID) ? { shards: [shardID, shardCount] } : {},
@@ -61,29 +62,29 @@ function ProcessMessages() {
 	// Make sure the cache is empty so we don't save duplicates
 	client.messageCache.clear(client.messageCache.currentPool);
 
-	SaveMessages(client, currentPool);
+	SaveMessages(currentPool);
 }
 
-async function CloseProgram() {
-    client.logs.info('Cleaning up...');
+function CloseProgram() {
+	client.logs.info('Cleaning up...');
 
     clearInterval(TickInterval);
     client.destroy();
-
-    await DownloadAssets(client.downloadQueue);
-
-    ProcessMessages();
-
-    try {
-        Database.pragma('wal_checkpoint(RESTART)'); // Clear the WAL file
-        Database.pragma('analysis_limit=8000');
-        Database.exec('ANALYZE');
-        Database.exec('VACUUM');
-    } catch (err) {
-        console.error('Error during database cleanup:', err);
-    } finally {
-        Database.close();
-    }
+	
+	ProcessMessages();
+    DownloadAssets(client.downloadQueue).then(() => {
+		try {
+			Database.pragma('wal_checkpoint(RESTART)'); // Clear the WAL file
+			Database.pragma('analysis_limit=8000'); // Set the analysis limit to 8000
+			Database.exec('ANALYZE'); // Analyze database for better query planning and optimization
+			Database.exec('VACUUM'); // Clear any empty space in the database
+		} catch (err) {
+			console.error('Error during database cleanup:', err);
+		} finally {
+			Database.close();
+			process.exit(0);
+		}
+	});
 }
 
 
