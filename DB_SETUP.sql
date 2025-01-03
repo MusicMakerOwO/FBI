@@ -145,3 +145,51 @@ CREATE TABLE IF NOT EXISTS Messages (
 	sticker_id TEXT,
 	created_at DATETIME GENERATED ALWAYS AS ({{SNOWFLAKE_DATE}}) VIRTUAL
 );
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS Backups (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	guild_id TEXT NOT NULL,
+	type INTEGER NOT NULL, -- Manual, auto, import, etc.
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	expires_at DATETIME NOT NULL DEFAULT (DATE('now', '+7 days'))
+);
+CREATE INDEX IF NOT EXISTS backups_guild_id ON Backups (guild_id);
+
+CREATE TABLE IF NOT EXISTS BackupChannel (
+	backup_id INTEGER NOT NULL REFERENCES Backups(id) ON DELETE CASCADE,
+	parent_id TEXT,
+	channel_id TEXT NOT NULL,
+	type INTEGER NOT NULL,
+	name TEXT NOT NULL,
+	PRIMARY KEY(backup_id, channel_id)
+);
+CREATE INDEX IF NOT EXISTS backup_channel_parent_id ON BackupChannel (parent_id);
+CREATE INDEX IF NOT EXISTS backup_channel_channel_id ON BackupChannel (channel_id);
+
+CREATE TABLE IF NOT EXISTS BackupRole (
+	backup_id INTEGER NOT NULL REFERENCES Backups(id) ON DELETE CASCADE,
+	role_id TEXT NOT NULL,
+	name TEXT NOT NULL,
+	color INTEGER NOT NULL,
+	hoist INTEGER NOT NULL,
+	position INTEGER NOT NULL,
+	permissions INTEGER NOT NULL,
+	mentionable INTEGER NOT NULL,
+	PRIMARY KEY(backup_id, role_id)
+);
+CREATE INDEX IF NOT EXISTS backup_role_role_id ON BackupRole (role_id);
+
+CREATE TABLE IF NOT EXISTS BackupChannelOverrides (
+	backup_id INTEGER NOT NULL REFERENCES Backups(id) ON DELETE CASCADE,
+	channel_id TEXT NOT NULL,
+	role_id TEXT NOT NULL,
+	allow INTEGER NOT NULL,
+	deny INTEGER NOT NULL,
+	PRIMARY KEY(backup_id, channel_id, role_id)
+);
+CREATE INDEX IF NOT EXISTS backup_channel_overrides_channel_id ON BackupChannelOverrides (channel_id);
+CREATE INDEX IF NOT EXISTS backup_channel_overrides_role_id ON BackupChannelOverrides (role_id);
